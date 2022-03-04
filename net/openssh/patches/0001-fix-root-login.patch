@@ -1,0 +1,49 @@
+From c125cb8b0421fd054894b79932e55d134e6ebc7d Mon Sep 17 00:00:00 2001
+From: liwenjie119 <liwenjie119@126.com>
+Date: Fri, 4 Mar 2022 21:56:31 +0800
+Subject: [PATCH] fix root login
+
+---
+ sshd_config | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/sshd_config b/sshd_config
+index c423eba..be79c76 100644
+--- a/sshd_config
++++ b/sshd_config
+@@ -15,11 +15,12 @@
+ #ListenAddress 0.0.0.0
+ #ListenAddress ::
+ 
+-#HostKey /etc/ssh/ssh_host_rsa_key
++HostKey /etc/ssh/ssh_host_rsa_key
+ #HostKey /etc/ssh/ssh_host_ecdsa_key
+-#HostKey /etc/ssh/ssh_host_ed25519_key
++HostKey /etc/ssh/ssh_host_ed25519_key
+ 
+ # Ciphers and keying
++Ciphers aes128-gcm@openssh.com,aes256-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+ #RekeyLimit default none
+ 
+ # Logging
+@@ -29,7 +30,7 @@
+ # Authentication:
+ 
+ #LoginGraceTime 2m
+-#PermitRootLogin prohibit-password
++PermitRootLogin yes
+ #StrictModes yes
+ #MaxAuthTries 6
+ #MaxSessions 10
+@@ -106,7 +107,7 @@ AuthorizedKeysFile	.ssh/authorized_keys
+ #Banner none
+ 
+ # override default of no subsystems
+-Subsystem	sftp	/usr/libexec/sftp-server
++Subsystem	sftp	/usr/lib/sftp-server
+ 
+ # Example of overriding settings on a per-user basis
+ #Match User anoncvs
+-- 
+2.25.1
+

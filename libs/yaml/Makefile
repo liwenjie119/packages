@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=yaml
 PKG_VERSION:=0.2.5
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://pyyaml.org/download/libyaml/
@@ -22,8 +22,10 @@ PKG_CPE_ID:=cpe:/a:pyyaml_project:pyyaml
 
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
+PKG_FIXUP:=autoreconf
 
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/host-build.mk
 
 define Package/libyaml
   SUBMENU:=Languages
@@ -34,6 +36,8 @@ define Package/libyaml
 endef
 
 TARGET_CFLAGS += $(FPIC)
+
+HOST_CONFIGURE_ARGS += --disable-shared
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
@@ -50,3 +54,4 @@ define Package/libyaml/install
 endef
 
 $(eval $(call BuildPackage,libyaml))
+$(eval $(call HostBuild))

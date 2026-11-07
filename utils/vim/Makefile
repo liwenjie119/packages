@@ -15,15 +15,11 @@ VIMVER:=82
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=http://ftp.vim.org/pub/vim/unix
 PKG_HASH:=f087f821831b4fece16a0461d574ccd55a8279f64d635510a1e10225966ced3b
-PKG_MAINTAINER:=Marko Ratkaj <marko.ratkaj@sartura.hr>
+PKG_MAINTAINER:=Marko Ratkaj <markoratkaj@gmail.com>
 PKG_CPE_ID:=cpe:/a:vim:vim
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)$(VIMVER)
 PKG_BUILD_PARALLEL:=1
-
-HOST_BUILD_DEPENDS:=libiconv/host
-HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)$(VIMVER)
-HOST_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk
@@ -111,15 +107,6 @@ define Package/xxd/description
  a hex dump back to its original binary form.
 endef
 
-HOST_CONFIGURE_ARGS += \
-	--disable-acl \
-	--disable-gpm \
-	--disable-nls \
-	--disable-selinux \
-	--enable-gui=no \
-	--with-features=normal \
-	--without-x
-
 CONFIGURE_ARGS += \
 	--disable-gui \
 	--disable-gtktest \
@@ -138,7 +125,7 @@ CONFIGURE_VARS += \
 	vim_cv_getcwd_broken=no \
 	vim_cv_memmove_handles_overlap=yes \
 	vim_cv_stat_ignores_slash=yes \
-	vim_cv_tgetent=zero \
+	vim_cv_tgetent=non-zero \
 	vim_cv_terminfo=yes \
 	vim_cv_toupper_broken=no \
 	vim_cv_tty_group=root \
@@ -151,6 +138,9 @@ endif
 define Build/Prepare
 	$(call Build/Prepare/Default)
 	$(MAKE) -C $(PKG_BUILD_DIR)/src autoconf
+endef
+
+define Build/Configure
 endef
 
 ifneq ($(CONFIG_PACKAGE_vim),)
@@ -190,17 +180,25 @@ endif
 
 ifneq ($(CONFIG_PACKAGE_xxd),)
 define Build/Compile/xxd
-	+$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR) \
-		DESTDIR="$(PKG_INSTALL_DIR)" all
+	+$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR)/src/xxd \
+		CC="$(TARGET_CC)" \
+		CFLAGS="$(TARGET_CFLAGS) $(TARGET_CPPFLAGS)" \
+		LDFLAGS="$(TARGET_LDFLAGS)" \
+		xxd
 endef
 endif
 
+ifneq ($(CONFIG_PACKAGE_vim-runtime)$(CONFIG_PACKAGE_vim-help),)
 define Build/Compile/vim-runtime
+	$(call Build/Configure/Default, \
+		--with-features=tiny \
+	)
 	$(MAKE) -C $(PKG_BUILD_DIR)/src DESTDIR="$(PKG_INSTALL_DIR)" installrtbase
 	(cd $(PKG_INSTALL_DIR) && tar -cf $(PKG_BUILD_DIR)/docs.tar ./usr/share/vim/vim$(VIMVER)/doc)
 	rm -rf $(PKG_INSTALL_DIR)/usr/share/vim/vim$(VIMVER)/doc
 	rm -rf $(PKG_INSTALL_DIR)/usr/man
 endef
+endif
 
 define Build/Compile
 $(call Build/Compile/vim)
@@ -257,4 +255,3 @@ $(eval $(call BuildPackage,vim-fuller))
 $(eval $(call BuildPackage,vim-runtime))
 $(eval $(call BuildPackage,vim-help))
 $(eval $(call BuildPackage,xxd))
-$(eval $(call HostBuild))

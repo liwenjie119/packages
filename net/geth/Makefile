@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=go-ethereum
-PKG_VERSION:=1.9.25
+PKG_VERSION:=1.17.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ethereum/go-ethereum/tar.gz/v${PKG_VERSION}?
-PKG_HASH:=d7b733aeef4eba97f5351ba435001fa7365f55adabffdfdda909700335e98b0e
+PKG_HASH:=8428049b30e76efcd19507225aa67c67d5d98c10a0f3a4ea339dfbba285bac7d
 
 PKG_MAINTAINER:=Mislav Novakovic <mislav.novakovic@sartura.hr>
 PKG_LICENSE:=GPL-3.0-or-later LGPL-3.0-or-later
@@ -22,9 +22,11 @@ PKG_LICENSE_FILES:=COPYING COPYING.LESSER
 PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
+PKG_CONFIG_DEPENDS:=CONFIG_BUILD_NLS
 
 GO_PKG:=github.com/ethereum/go-ethereum
 GO_PKG_BUILD_PKG:=github.com/ethereum/go-ethereum/cmd/geth
+GO_PKG_TAGS:=untested_go_version
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
@@ -44,7 +46,7 @@ that run exactly as programmed without possibility of downtime, censorship,
 fraud or third party interference.
 endef
 
-TARGET_LDFLAGS += -liconv
+TARGET_LDFLAGS += $(if $(ICONV_FULL),-liconv)
 
 define Package/geth/install
 	$(call GoPackage/Package/Install/Bin,$(1))

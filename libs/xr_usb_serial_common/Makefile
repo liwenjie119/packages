@@ -2,13 +2,13 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=usb-serial-xr_usb_serial_common
-PKG_SOURCE_DATE:=2017-08-01
-PKG_SOURCE_VERSION:=b8dad8cf15de160afbd9989f880dc74b921a857b
-PKG_RELEASE:=2
+PKG_SOURCE_DATE:=2023-03-21
+PKG_SOURCE_VERSION:=90ad530166f096347a5a57b6f9eb21c422a40fd9
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/kasbert/epsolar-tracer
-PKG_MIRROR_HASH:=2cf23fec2625480bb4a630f96cd172219d401bd3cf90943394504ea0ba814faf
+PKG_MIRROR_HASH:=f8572929a66d2eeadc80ef68fb26d5b7a824b87b7959352ff44ad4b3a29dfb78
 
 PKG_MAINTAINER:=Daniel Golle <daniel@makrotopia.org>
 PKG_LICENSE:=GPL-2.0-or-later

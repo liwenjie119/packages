@@ -1,14 +1,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=crun
-PKG_VERSION:=1.4.2
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_VERSION:=1.7.2
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/containers/crun.git
-PKG_SOURCE_DATE:=2022-03-02
-PKG_SOURCE_VERSION:=c677a1cfc04f24499513a743b828a8d9db6d95ce
-PKG_MIRROR_HASH:=7f5084aac03afa7685ea240e8e47551c42cfa40a33e5ced5ef40cb0c3f587fb6
+PKG_SOURCE_DATE:=2023-01-11
+PKG_SOURCE_VERSION:=4e5bd755c12a86f2e36962964f3eab7b3516d3ac
+PKG_MIRROR_HASH:=8e6b0f3e9dde982601f562683f5c744b03e630681afaf9aaacaa4c89ccec23dc
 
 PKG_BUILD_DEPENDS:=argp-standalone
 PKG_BUILD_PARALLEL:=1
@@ -26,7 +26,7 @@ define Package/crun
   CATEGORY:=Utilities
   TITLE:=crun
   URL:=https://github.com/containers/crun
-  DEPENDS:=@!arc +libseccomp +libcap
+  DEPENDS:=@!arc +libseccomp +libcap +libgcrypt
 endef
 
 define Package/crun/description

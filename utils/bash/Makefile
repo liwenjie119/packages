@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bash
-PKG_VERSION:=5.1.16
+PKG_VERSION:=5.2.15
 PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=@GNU/bash
-PKG_HASH:=5bac17218d3911834520dad13cd1f85ab944e1c09ae1aba55906be1f8192f558
+PKG_HASH:=13720965b5f4fc3a0d4b61dd37e7565c741da9a5be24edc2ae00182fc1b3588c
 
 PKG_MAINTAINER:=Marcel Denia <naoir@gmx.net>
 PKG_LICENSE:=GPL-3.0-or-later
@@ -68,6 +68,7 @@ CONFIGURE_VARS += \
 	bash_cv_job_control_missing=present \
 	bash_cv_dev_fd=whacky \
 	bash_cv_sys_named_pipes=present \
+	CFLAGS_FOR_BUILD="-std=gnu17" \
 
 # The following are some other tests that cannot run when cross-compiling
 CONFIGURE_VARS += \

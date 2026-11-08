@@ -1,17 +1,17 @@
-From af9bbc40108e093b5473f281ef50d0f0ad288b7a Mon Sep 17 00:00:00 2001
+From 683e8343b842c4581a7b5e700f5731045dbd2710 Mon Sep 17 00:00:00 2001
 From: liwenjie119 <liwenjie119@126.com>
-Date: Sat, 7 Nov 2026 22:53:02 +0800
+Date: Sun, 8 Nov 2026 17:53:32 +0800
 Subject: [PATCH] fix root login
 
 ---
- sshd_config | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ sshd_config | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/sshd_config b/sshd_config
-index 0f4a3a7..8bf9c43 100644
+index 57ecabb..4408387 100644
 --- a/sshd_config
 +++ b/sshd_config
-@@ -15,11 +15,12 @@
+@@ -15,12 +15,13 @@
  #ListenAddress 0.0.0.0
  #ListenAddress ::
  
@@ -19,14 +19,16 @@ index 0f4a3a7..8bf9c43 100644
 +HostKey /etc/ssh/ssh_host_rsa_key
  #HostKey /etc/ssh/ssh_host_ecdsa_key
 -#HostKey /etc/ssh/ssh_host_ed25519_key
+-#HostKey /etc/ssh/ssh_host_mldsa44_ed25519_key
 +HostKey /etc/ssh/ssh_host_ed25519_key
++HostKey /etc/ssh/ssh_host_mldsa44_ed25519_key
  
  # Ciphers and keying
-+Ciphers aes128-gcm@openssh.com,aes256-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
++Ciphers chacha20-poly1305@openssh.com,aes128-gcm@openssh.com,aes256-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
  #RekeyLimit default none
  
  # Logging
-@@ -29,7 +30,7 @@
+@@ -30,7 +31,7 @@
  # Authentication:
  
  #LoginGraceTime 2m
@@ -35,7 +37,7 @@ index 0f4a3a7..8bf9c43 100644
  #StrictModes yes
  #MaxAuthTries 6
  #MaxSessions 10
-@@ -81,7 +82,7 @@ AuthorizedKeysFile	.ssh/authorized_keys
+@@ -82,7 +83,7 @@ AuthorizedKeysFile	.ssh/authorized_keys
  # If you just want the PAM account and session checks to run without
  # PAM authentication, then enable this but set PasswordAuthentication
  # and KbdInteractiveAuthentication to 'no'.
@@ -44,7 +46,7 @@ index 0f4a3a7..8bf9c43 100644
  
  #AllowAgentForwarding yes
  #AllowTcpForwarding yes
-@@ -108,7 +109,7 @@ AuthorizedKeysFile	.ssh/authorized_keys
+@@ -109,7 +110,7 @@ AuthorizedKeysFile	.ssh/authorized_keys
  #Banner none
  
  # override default of no subsystems
@@ -53,5 +55,6 @@ index 0f4a3a7..8bf9c43 100644
  
  # Example of overriding settings on a per-user basis
  #Match User anoncvs
+-- 
 2.53.0
 
